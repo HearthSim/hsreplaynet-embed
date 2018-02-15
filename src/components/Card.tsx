@@ -60,7 +60,7 @@ export default class Card extends React.Component<Props, State> {
 		return (
 			<ComponentCard
 				id={cardId}
-				resolution={512}
+				resolution={256}
 				placeholder={placeholder ? placeholder : undefined}
 				style={{ width: "100%" }}
 			/>
