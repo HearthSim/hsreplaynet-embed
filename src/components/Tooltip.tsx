@@ -6,7 +6,12 @@ interface Props extends React.ClassAttributes<Tooltip> {
 
 export default class Tooltip extends React.Component<Props> {
 	public render(): React.ReactNode {
-		const { top, left, height, width } = this.props.attachTo.getBoundingClientRect();
+		const {
+			top,
+			left,
+			height,
+			width,
+		} = this.props.attachTo.getBoundingClientRect();
 
 		const childWidth = 256;
 		const childHeight = 382;

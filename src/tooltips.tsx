@@ -29,7 +29,7 @@ function findElements(hrefRegExp: RegExp): HTMLAnchorElement[] {
 		'a[href*="hsreplay.net/cards/"]'
 	) as NodeListOf<HTMLAnchorElement>;
 
-	const elements = Array.from(links).filter((link: HTMLAnchorElement) => {
+	return Array.from(links).filter((link: HTMLAnchorElement) => {
 		// reject nodes containing images or other markup
 		const childNodes = Array.from(link.childNodes);
 		if (childNodes.some(node => node.nodeType !== Node.TEXT_NODE)) {
@@ -52,8 +52,6 @@ function findElements(hrefRegExp: RegExp): HTMLAnchorElement[] {
 		const dbfId = +result[1];
 		return !isNaN(dbfId);
 	});
-
-	return elements;
 }
 
 function getDbfIdFromUrl(url: string): number {
