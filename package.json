@@ -6,12 +6,32 @@
   "author": "Benedict Etzel <benedict@hearthsim.net>",
   "license": "UNLICENSED",
   "private": true,
+  "scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack --mode development --watch",
+    "format": "prettier --write \"{src/**/*.ts{,x},*.js}\"",
+    "lint": "prettier --list-different \"{src/**/*.ts{,x},*.js}\""
+  },
   "devDependencies": {
+    "@awaitbox/document-ready": "^1.0.10",
+    "@babel/core": "^7.0.0-beta.40",
+    "@babel/polyfill": "^7.0.0-beta.40",
+    "@babel/preset-env": "^7.0.0-beta.40",
+    "@babel/preset-react": "^7.0.0-beta.40",
+    "@types/prop-types": "^15.5.2",
     "@types/react": "^16.0.36",
     "@types/react-dom": "^16.0.3",
+    "babel-loader": "^8.0.0-beta.0",
+    "hearthstonejson-client": "^0.8.1",
+    "prettier": "^1.10.2",
+    "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-hs-components": "https://libs.hearthsim.net/react-hs-components-v0.2.1.tgz",
-    "typescript": "^2.7.1"
+    "styled-components": "^3.1.6",
+    "ts-loader": "4.0.0-beta.0",
+    "typescript": "^2.7.1",
+    "webpack": "^4.0.0-beta.1",
+    "webpack-cli": "^2.0.6"
   }
 }
