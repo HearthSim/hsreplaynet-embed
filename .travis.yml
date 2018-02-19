@@ -6,6 +6,17 @@ env:
   - SCRIPT=build
 script:
   - yarn run $SCRIPT
+jobs:
+  include:
+    - stage: deploy
+      node_js: "node"
+      install:
+        - npm install -g yarn
+        - yarn --pure-lockfile
+        - pip install --user awscli
+      script:
+        - yarn run build
+        - aws s3 cp dist/main.js $S3_URL
 cache:
   yarn: true
 notifications:
