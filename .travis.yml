@@ -17,6 +17,7 @@ jobs:
       script:
         - yarn run build
         - aws s3 cp dist/main.js $S3_URL
+      env: ""
 cache:
   yarn: true
 notifications:
