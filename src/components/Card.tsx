@@ -2,7 +2,7 @@ import React from "react";
 import { Card as ComponentCard } from "react-hs-components";
 import { CardsByDbfId } from "../tooltips";
 
-interface Props extends React.ClassAttributes<Card> {
+interface Props {
 	dbfId: number | null;
 	cards: CardsByDbfId | null;
 }

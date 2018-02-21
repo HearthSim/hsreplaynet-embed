@@ -1,6 +1,6 @@
 import React from "react";
 
-interface Props extends React.ClassAttributes<Tooltip> {
+interface Props {
 	attachTo: HTMLElement;
 }
 
