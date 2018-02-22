@@ -43,16 +43,20 @@ export default class Card extends React.Component<Props, State> {
 		if (card.type) {
 			switch (card.type.toLowerCase()) {
 				case "minion":
-					placeholder = "https://hsreplay.net/static/images/loading_minion.png";
+					placeholder =
+						"https://hsreplay.net/static/images/loading_minion.png";
 					break;
 				case "spell":
-					placeholder = "https://hsreplay.net/static/images/loading_spell.png";
+					placeholder =
+						"https://hsreplay.net/static/images/loading_spell.png";
 					break;
 				case "weapon":
-					placeholder = "https://hsreplay.net/static/images/loading_weapon.png";
+					placeholder =
+						"https://hsreplay.net/static/images/loading_weapon.png";
 					break;
 				case "hero":
-					placeholder = "https://hsreplay.net/static/images/loading_hero.png";
+					placeholder =
+						"https://hsreplay.net/static/images/loading_hero.png";
 					break;
 			}
 		}
