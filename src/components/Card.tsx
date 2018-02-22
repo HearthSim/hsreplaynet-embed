@@ -1,6 +1,6 @@
 import React from "react";
 import { Card as ComponentCard } from "react-hs-components";
-import { CardsByDbfId } from "../tooltips";
+import { CardsByDbfId } from "../cards";
 
 interface Props {
 	dbfId: number | null;

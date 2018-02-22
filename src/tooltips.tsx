@@ -1,28 +1,12 @@
 import React from "react";
 import { render } from "react-dom";
 import documentReady from "@awaitbox/document-ready";
-import HearthstoneJSON, { CardData } from "hearthstonejson-client";
+import { loadCards } from "./cards";
 import Card from "./components/Card";
 import Tooltip from "./components/Tooltip";
-
-export type CardsByDbfId = { [dbfId: string]: CardData };
+import { CardsByDbfId } from "./cards";
 
 let cards: CardsByDbfId | null = null;
-
-async function loadCards() {
-	const hsjon = new HearthstoneJSON();
-	const listOfCards = await hsjon.get("latest");
-	const result: CardsByDbfId = {};
-	for (let card of listOfCards) {
-		const dbfId = card.dbfId;
-		if (!dbfId) {
-			continue;
-		}
-		result["" + dbfId] = card;
-	}
-	cards = result;
-	return result;
-}
 
 function findElements(hrefRegExp: RegExp): HTMLAnchorElement[] {
 	const links = document.querySelectorAll(
@@ -74,7 +58,8 @@ function attachEvents(element: HTMLElement, container: HTMLElement): void {
 		}
 		const dbfId = getDbfIdFromUrl(url);
 		if (cards === null) {
-			loadCards().then(() => {
+			loadCards().then(loaded => {
+				cards = loaded;
 				if (cancelImmediate) {
 					return;
 				}
