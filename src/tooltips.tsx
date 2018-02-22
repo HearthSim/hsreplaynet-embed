@@ -67,6 +67,7 @@ function attachEvents(element: HTMLElement, container: HTMLElement): void {
 	let cancelImmediate = false;
 	element.addEventListener("mouseenter", event => {
 		event.preventDefault();
+		cancelImmediate = false;
 		const url = element.getAttribute("href");
 		if (url === null) {
 			return;
