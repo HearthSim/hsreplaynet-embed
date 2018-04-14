@@ -41,7 +41,7 @@ export default class Deck extends React.Component<Props> {
 		return (
 			<DeckDiv>
 				<DeckStringInput
-					type="readonly"
+					type="text"
 					value={encode(this.props.deck)}
 					spellCheck={false}
 					innerRef={(ref: HTMLInputElement) => (this.input = ref)}
@@ -54,6 +54,7 @@ export default class Deck extends React.Component<Props> {
 							this.input.value.length
 						);
 					}}
+					readOnly
 				/>
 				<CardList>
 					{sorted.map(([dbfId, count], index) => {
