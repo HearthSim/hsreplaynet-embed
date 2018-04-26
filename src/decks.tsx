@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { CardData } from "hearthstonejson-client";
 import documentReady from "@awaitbox/document-ready";
 import { DeckDefinition, decode } from "deckstrings";
 import Deck from "./components/Deck";
@@ -26,12 +25,21 @@ documentReady().then(() => {
 		}
 		const container = document.createElement("div");
 		const content = element.innerText;
-		const lines = content
-			.split("\n")
-			.filter(line => line.substr(0, 1) !== "#");
+		const lines = content.split("\n");
+
+		let label: string | null = null;
+		const labelRegExp = /^###(.*)$/;
+		for (const line of lines) {
+			const match = labelRegExp.exec(line);
+			if (match) {
+				label = match[1].trim();
+				break;
+			}
+		}
+		const body = lines.filter(line => line.substr(0, 1) !== "#");
 		let deck: DeckDefinition | null = null;
 		try {
-			deck = decode(lines.join("\n").trim());
+			deck = decode(body.join("\n").trim());
 		} catch (e) {
 			console.error(e);
 			continue;
@@ -48,7 +56,11 @@ documentReady().then(() => {
 						return;
 					}
 					ReactDOM.render(
-						<Deck deck={deck} cards={cards} />,
+						<Deck
+							label={label !== null ? label : undefined}
+							deck={deck}
+							cards={cards}
+						/>,
 						container
 					);
 					document.removeEventListener("scroll", loadIfVisible);

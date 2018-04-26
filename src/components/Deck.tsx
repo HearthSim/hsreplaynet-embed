@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { encode } from "deckstrings";
 
 interface Props {
+	label?: string;
 	deck: DeckDefinition;
 	cards: CardsByDbfId | null;
 }
@@ -15,6 +16,11 @@ const DeckDiv = styled.div`
 	width: 260px;
 	font-size: 1.75rem;
 	margin: 1em 0 2em 0;
+`;
+
+const DeckLabel = styled.span`
+	font-weight: bold;
+	font-size: 1.75rem;
 `;
 
 const CardList = styled.ul`
@@ -40,6 +46,22 @@ export default class Deck extends React.Component<Props> {
 		sorted.sort(this.sortCards.bind(this));
 		return (
 			<DeckDiv>
+				{this.props.label ? (
+					<DeckLabel>{this.props.label}</DeckLabel>
+				) : null}
+				<CardList>
+					{sorted.map(([dbfId, count], index) => {
+						return (
+							<li key={index}>
+								<CardTile
+									dbfId={dbfId}
+									count={count}
+									cards={this.props.cards}
+								/>
+							</li>
+						);
+					})}
+				</CardList>
 				<DeckStringInput
 					type="text"
 					value={encode(this.props.deck)}
@@ -56,19 +78,6 @@ export default class Deck extends React.Component<Props> {
 					}}
 					readOnly
 				/>
-				<CardList>
-					{sorted.map(([dbfId, count], index) => {
-						return (
-							<li key={index}>
-								<CardTile
-									dbfId={dbfId}
-									count={count}
-									cards={this.props.cards}
-								/>
-							</li>
-						);
-					})}
-				</CardList>
 			</DeckDiv>
 		);
 	}
