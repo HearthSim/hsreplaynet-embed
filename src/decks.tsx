@@ -36,6 +36,7 @@ documentReady().then(() => {
 				break;
 			}
 		}
+		const noCopy = !!element.getAttribute("data-no-copy");
 		const body = lines.filter(line => line.substr(0, 1) !== "#");
 		let deck: DeckDefinition | null = null;
 		try {
@@ -60,6 +61,7 @@ documentReady().then(() => {
 							label={label !== null ? label : undefined}
 							deck={deck}
 							cards={cards}
+							noCopy={noCopy}
 						/>,
 						container
 					);

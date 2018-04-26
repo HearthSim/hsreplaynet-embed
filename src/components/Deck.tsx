@@ -10,6 +10,7 @@ interface Props {
 	label?: string;
 	deck: DeckDefinition;
 	cards: CardsByDbfId | null;
+	noCopy?: boolean;
 }
 
 const DeckDiv = styled.div`
@@ -62,22 +63,24 @@ export default class Deck extends React.Component<Props> {
 						);
 					})}
 				</CardList>
-				<DeckStringInput
-					type="text"
-					value={encode(this.props.deck)}
-					spellCheck={false}
-					innerRef={(ref: HTMLInputElement) => (this.input = ref)}
-					onClick={() => {
-						if (!this.input) {
-							return null;
-						}
-						this.input.setSelectionRange(
-							0,
-							this.input.value.length
-						);
-					}}
-					readOnly
-				/>
+				{!this.props.noCopy ? (
+					<DeckStringInput
+						type="text"
+						value={encode(this.props.deck)}
+						spellCheck={false}
+						innerRef={(ref: HTMLInputElement) => (this.input = ref)}
+						onClick={() => {
+							if (!this.input) {
+								return null;
+							}
+							this.input.setSelectionRange(
+								0,
+								this.input.value.length
+							);
+						}}
+						readOnly
+					/>
+				) : null}
 			</DeckDiv>
 		);
 	}
