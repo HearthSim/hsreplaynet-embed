@@ -35,6 +35,8 @@ export default class CardTile extends React.Component<Props> {
 				href={`https://hsreplay.net/cards/${
 					this.props.dbfId
 				}/${urlCardName}/`}
+				target="_blank"
+				rel="noopener"
 			>
 				<ComponentCardTile
 					id={cardId}
