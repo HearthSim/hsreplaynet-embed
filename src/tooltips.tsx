@@ -98,10 +98,21 @@ function attachEvents(element: HTMLElement, container: HTMLElement): void {
 	});
 }
 
-documentReady().then(() => {
+export function getTooltipContainer(): HTMLElement {
+	const existing = document.getElementById(
+		"hsreplaynet-embed-tooltip-container"
+	);
+	if (existing) {
+		return existing;
+	}
 	const container = document.createElement("div");
-	container.classList.add("hsreplaynet-embed-tooltip-container");
+	container.id = "hsreplaynet-embed-tooltip-container";
 	document.body.appendChild(container);
+	return container;
+}
+
+documentReady().then(() => {
+	const container = getTooltipContainer();
 	const regexp = /^https?:\/\/hsreplay.net\/cards\/(\d+)\/?/;
 	const elements = findElements(regexp);
 	elements.forEach(element => attachEvents(element, container));

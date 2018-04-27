@@ -1,7 +1,10 @@
 import React from "react";
+import { createPortal } from "react-dom";
 import { CardTile as ComponentCardTile } from "react-hs-components";
 import { CardsByDbfId } from "../cards";
-import { CardData } from "hearthstonejson-client";
+import Tooltip from "./Tooltip";
+import Card from "./Card";
+import { getTooltipContainer } from "../tooltips";
 
 interface Props {
 	dbfId: number;
@@ -9,8 +12,20 @@ interface Props {
 	cards: CardsByDbfId | null;
 }
 
-export default class CardTile extends React.Component<Props> {
-	private ref: any;
+interface State {
+	showTooltip: boolean;
+}
+
+export default class CardTile extends React.Component<Props, State> {
+	private ref: any = null;
+	private linkRef: HTMLElement | null = null;
+
+	constructor(props: Props, context: any) {
+		super(props, context);
+		this.state = {
+			showTooltip: false,
+		};
+	}
 
 	public render(): React.ReactNode {
 		let cardId = null,
@@ -31,27 +46,53 @@ export default class CardTile extends React.Component<Props> {
 			.toLowerCase()
 			.replace(/[^a-z0-9]/g, "-");
 		return (
-			<a
-				href={`https://hsreplay.net/cards/${
-					this.props.dbfId
-				}/${urlCardName}/`}
-				target="_blank"
-				rel="noopener"
-			>
-				<ComponentCardTile
-					id={cardId}
-					name={cardName}
-					cost={cardCost}
-					number={
-						!!cardId && this.props.count !== 1
-							? this.props.count
-							: undefined
-					}
-					rarity={!!cardRarity ? cardRarity : undefined}
-					fontFamily="Noto Sans, sans-serif"
-					ref={ref => (this.ref = ref)}
-				/>
-			</a>
+			<>
+				{this.state.showTooltip && this.linkRef !== null
+					? createPortal(
+							<Tooltip attachTo={this.linkRef}>
+								<Card
+									dbfId={this.props.dbfId}
+									cards={this.props.cards}
+								/>
+							</Tooltip>,
+							getTooltipContainer()
+						)
+					: null}
+				<a
+					href={`https://hsreplay.net/cards/${
+						this.props.dbfId
+					}/${urlCardName}/`}
+					onMouseEnter={this.mouseEnter}
+					onMouseLeave={this.mouseLeave}
+					ref={ref => (this.linkRef = ref)}
+					target="_blank"
+					rel="noopener"
+				>
+					<ComponentCardTile
+						id={cardId}
+						name={cardName}
+						cost={cardCost}
+						number={
+							!!cardId && this.props.count !== 1
+								? this.props.count
+								: undefined
+						}
+						rarity={!!cardRarity ? cardRarity : undefined}
+						fontFamily="Noto Sans, sans-serif"
+						ref={ref => (this.ref = ref)}
+					/>
+				</a>
+			</>
 		);
 	}
+
+	private mouseEnter = (event: React.MouseEvent<HTMLElement>) => {
+		event.preventDefault();
+		this.setState({ showTooltip: true });
+	};
+
+	private mouseLeave = (event: React.MouseEvent<HTMLElement>) => {
+		event.preventDefault();
+		this.setState({ showTooltip: false });
+	};
 }
