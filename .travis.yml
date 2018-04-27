@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "node"
+  - "9"
 env:
   - SCRIPT=lint
   - SCRIPT=build
@@ -9,7 +9,7 @@ script:
 jobs:
   include:
     - stage: deploy
-      node_js: "node"
+      node_js: "9"
       install:
         - npm install -g yarn
         - yarn --pure-lockfile
