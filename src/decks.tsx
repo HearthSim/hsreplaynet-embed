@@ -49,7 +49,10 @@ documentReady().then(() => {
 			continue;
 		}
 		parent.replaceChild(container, element);
-		ReactDOM.render(<Deck deck={deck} cards={null} />, container);
+		ReactDOM.render(
+			<Deck deck={deck} cards={null} noCopy={noCopy} />,
+			container
+		);
 		const loadIfVisible = () => {
 			if (isElementVisible(element)) {
 				loadCards().then(cards => {
