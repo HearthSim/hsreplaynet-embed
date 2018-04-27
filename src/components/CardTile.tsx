@@ -56,7 +56,7 @@ export default class CardTile extends React.Component<Props, State> {
 								/>
 							</Tooltip>,
 							getTooltipContainer()
-						)
+					  )
 					: null}
 				<a
 					href={`https://hsreplay.net/cards/${
