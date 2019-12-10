@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "react-dom";
+import { render, unmountComponentAtNode } from "react-dom";
 import documentReady from "@awaitbox/document-ready";
 import { loadCards } from "./cards";
 import Card from "./components/Card";
@@ -49,8 +49,8 @@ function getDbfIdFromUrl(url: string): number {
 
 function attachEvents(element: HTMLElement, container: HTMLElement): void {
 	let cancelImmediate = false;
-	element.addEventListener("mouseenter", event => {
-		event.preventDefault();
+
+	const show = async (touched: boolean): Promise<void> => {
 		cancelImmediate = false;
 		const url = element.getAttribute("href");
 		if (url === null) {
@@ -58,44 +58,41 @@ function attachEvents(element: HTMLElement, container: HTMLElement): void {
 		}
 		const dbfId = getDbfIdFromUrl(url);
 		if (cards === null) {
-			loadCards().then(loaded => {
-				cards = loaded;
-				if (cancelImmediate) {
-					return;
-				}
-				render(
-					<Tooltip attachTo={element}>
-						<Card dbfId={dbfId} cards={cards} />
-					</Tooltip>,
-					container
-				);
-			});
+			cards = await loadCards();
+			if (cancelImmediate) {
+				return;
+			}
 		}
 		render(
-			<Tooltip attachTo={element}>
+			<Tooltip attachTo={element} touched={touched}>
 				<Card dbfId={dbfId} cards={cards} />
 			</Tooltip>,
 			container
 		);
+	};
+
+	const hide = () => {
+		cancelImmediate = true;
+		unmountComponentAtNode(container);
+	};
+
+	element.addEventListener("mouseenter", event => {
+		event.preventDefault();
+		show(false);
 	});
 	element.addEventListener("mouseleave", event => {
 		event.preventDefault();
-		cancelImmediate = true;
-		render(
-			<Tooltip attachTo={element}>
-				<Card dbfId={null} cards={cards} />
-			</Tooltip>,
-			container
-		);
+		hide();
 	});
-	window.addEventListener("scroll", () => {
-		render(
-			<Tooltip attachTo={element}>
-				<Card dbfId={null} cards={cards} />
-			</Tooltip>,
-			container
-		);
+	element.addEventListener("touchstart", event => {
+		event.preventDefault();
+		show(true);
 	});
+	element.addEventListener("touchend", event => {
+		event.preventDefault();
+		hide();
+	});
+	window.addEventListener("scroll", () => hide());
 }
 
 export function getTooltipContainer(): HTMLElement {
