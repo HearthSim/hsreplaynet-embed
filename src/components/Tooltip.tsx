@@ -2,20 +2,47 @@ import React from "react";
 
 interface Props {
 	attachTo: HTMLElement;
+	initialPosition?: { clientX: number; clientY: number };
 	touched?: boolean;
 }
 
 export default class Tooltip extends React.Component<Props> {
 	public render(): React.ReactNode {
+		const { attachTo, initialPosition, touched } = this.props;
+
 		const childWidth = Math.min(256, window.innerWidth);
 		const childHeight = 382 * (childWidth / 256);
 
-		const {
-			top,
-			left,
-			height,
-			width,
-		} = this.props.attachTo.getBoundingClientRect();
+		let boundingRect: ClientRect | null = null;
+
+		// If getClientRects is available, attempt using that first:
+		// Multiple client rects could exist if the target is a link that breaks
+		// across multiple lines. This way we can show the cursor directly next
+		// to the line we're actually interacting with.
+		if (initialPosition && typeof attachTo.getClientRects === "function") {
+			const { clientX: initialX, clientY: initialY } = initialPosition;
+			const rects = attachTo.getClientRects();
+			for (const i in rects) {
+				if (!rects.hasOwnProperty(i)) {
+					continue;
+				}
+				const rect = rects[i];
+				const xMatch =
+					initialX >= rect.left && initialX <= rect.left + rect.width;
+				const yMatch =
+					initialY >= rect.top && initialY <= rect.top + rect.height;
+				if (xMatch && yMatch) {
+					boundingRect = rect;
+					break;
+				}
+			}
+		}
+
+		if (boundingRect === null) {
+			boundingRect = this.props.attachTo.getBoundingClientRect();
+		}
+
+		const { top, left, height, width } = boundingRect;
 		const asPx = (s: string | number) => `${s}px`;
 
 		if (this.props.touched) {

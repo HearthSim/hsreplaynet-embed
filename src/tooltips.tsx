@@ -50,7 +50,10 @@ function getDbfIdFromUrl(url: string): number {
 function attachEvents(element: HTMLElement, container: HTMLElement): void {
 	let cancelImmediate = false;
 
-	const show = async (touched: boolean): Promise<void> => {
+	const show = async (
+		touched: boolean,
+		position?: { clientX: number; clientY: number }
+	): Promise<void> => {
 		cancelImmediate = false;
 		const url = element.getAttribute("href");
 		if (url === null) {
@@ -64,8 +67,12 @@ function attachEvents(element: HTMLElement, container: HTMLElement): void {
 			}
 		}
 		render(
-			<Tooltip attachTo={element} touched={touched}>
-				<Card dbfId={dbfId} cards={cards} />
+			<Tooltip
+				attachTo={element}
+				touched={touched}
+				initialPosition={position}
+			>
+				<Card key={dbfId} dbfId={dbfId} cards={cards} />
 			</Tooltip>,
 			container
 		);
@@ -78,7 +85,7 @@ function attachEvents(element: HTMLElement, container: HTMLElement): void {
 
 	element.addEventListener("mouseenter", event => {
 		event.preventDefault();
-		show(false);
+		show(false, { clientX: event.clientX, clientY: event.clientY });
 	});
 	element.addEventListener("mouseleave", event => {
 		event.preventDefault();
@@ -86,7 +93,17 @@ function attachEvents(element: HTMLElement, container: HTMLElement): void {
 	});
 	element.addEventListener("touchstart", event => {
 		event.preventDefault();
-		show(true);
+		const touches = event.touches;
+		let initialPosition:
+			| { clientX: number; clientY: number }
+			| undefined = undefined;
+		if (touches.length > 0) {
+			initialPosition = {
+				clientX: touches[0].clientX,
+				clientY: touches[0].clientY,
+			};
+		}
+		show(true, initialPosition);
 	});
 	element.addEventListener("touchend", event => {
 		event.preventDefault();
