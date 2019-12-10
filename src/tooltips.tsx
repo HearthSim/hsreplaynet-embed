@@ -106,7 +106,9 @@ function attachEvents(element: HTMLElement, container: HTMLElement): void {
 		show(true, initialPosition);
 	});
 	element.addEventListener("touchend", event => {
-		event.preventDefault();
+		if (event.cancelable) {
+			event.preventDefault();
+		}
 		hide();
 	});
 	window.addEventListener("scroll", () => hide());
