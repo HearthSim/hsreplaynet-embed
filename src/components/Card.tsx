@@ -27,7 +27,7 @@ export default class Card extends React.Component<Props, State> {
 		if (!this.props.cards) {
 			return (
 				<img
-					src="https://hsreplay.net/static/images/loading_minion.png"
+					src="https://static.hsreplay.net/static/images/loading_minion.png"
 					style={{ width: "100%" }}
 				/>
 			);
@@ -44,19 +44,19 @@ export default class Card extends React.Component<Props, State> {
 			switch (card.type.toLowerCase()) {
 				case "minion":
 					placeholder =
-						"https://hsreplay.net/static/images/loading_minion.png";
+						"https://static.hsreplay.net/static/images/loading_minion.png";
 					break;
 				case "spell":
 					placeholder =
-						"https://hsreplay.net/static/images/loading_spell.png";
+						"https://static.hsreplay.net/static/images/loading_spell.png";
 					break;
 				case "weapon":
 					placeholder =
-						"https://hsreplay.net/static/images/loading_weapon.png";
+						"https://static.hsreplay.net/static/images/loading_weapon.png";
 					break;
 				case "hero":
 					placeholder =
-						"https://hsreplay.net/static/images/loading_hero.png";
+						"https://static.hsreplay.net/static/images/loading_hero.png";
 					break;
 			}
 		}

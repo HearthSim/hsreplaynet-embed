@@ -135,10 +135,10 @@ documentReady().then(() => {
 
 	// preload placeholders
 	for (let url of [
-		"https://hsreplay.net/static/images/loading_minion.png",
-		"https://hsreplay.net/static/images/loading_spell.png",
-		"https://hsreplay.net/static/images/loading_weapon.png",
-		"https://hsreplay.net/static/images/loading_hero.png",
+		"https://static.hsreplay.net/static/images/loading_minion.png",
+		"https://static.hsreplay.net/static/images/loading_spell.png",
+		"https://static.hsreplay.net/static/images/loading_weapon.png",
+		"https://static.hsreplay.net/static/images/loading_hero.png",
 	]) {
 		const prefetch = document.createElement("link");
 		prefetch.setAttribute("rel", "prefetch");
