@@ -2749,9 +2749,10 @@ hash.js@^1.0.0, hash.js@^1.0.3:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
-hearthstonejson-client@^0.8.1:
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/hearthstonejson-client/-/hearthstonejson-client-0.8.1.tgz#2d2201d8b43697b53296defb4faf2101c01bbba6"
+hearthstonejson-client@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/hearthstonejson-client/-/hearthstonejson-client-1.0.0.tgz#cc99e2218654cd12f4d670de2deba1909172f17f"
+  integrity sha512-B6565cJxAk6JTZRQjNf+pYa4VIEAwBuYKo/SUf44NCSuMd70NXSncr8aMU6TbiR2ZbOMAQuQYHL3CNAUDWgCRA==
 
 hmac-drbg@^1.0.0:
   version "1.0.1"

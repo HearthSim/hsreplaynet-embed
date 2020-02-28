@@ -24,7 +24,7 @@
     "babel-loader": "^8.0.0-beta.0",
     "babel-plugin-styled-components": "^1.5.0",
     "deckstrings": "^2.0.0",
-    "hearthstonejson-client": "^0.8.1",
+    "hearthstonejson-client": "^1.0.0",
     "prettier": "^1.10.2",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
