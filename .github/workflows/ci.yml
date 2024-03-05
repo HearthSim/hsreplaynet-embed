@@ -1,0 +1,60 @@
+name: CI
+
+on: [push]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 9
+          cache: yarn
+
+      - name: Install
+        run: |
+          npm install -g yarn
+          yarn --pure-lockfile
+
+      - name: Lint
+        run: yarn run lint
+
+      - name: Build
+        run: yarn run build
+
+  deploy:
+    name: Deploy
+    needs: [test]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/heads/main')
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 9
+          cache: yarn
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install
+        run: |
+          npm install -g yarn
+          pip install --user awscli
+          yarn --pure-lockfile
+      - name: Build package
+        run: yarn run build
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::746159132190:role/github-hsreplaynet_embed-deploy-role
+          aws-region: us-east-1
+      - name: Upload to libs.hearthsim.net
+        run: aws s3 cp dist/main.js s3://libs.hearthsim.net/hsreplaynet-embed/hsreplaynet-embed.min.js
