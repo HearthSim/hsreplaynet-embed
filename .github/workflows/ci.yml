@@ -33,7 +33,7 @@ jobs:
     name: Deploy
     needs: [test]
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/heads/main')
+    if: startsWith(github.ref, 'refs/heads/master')
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
