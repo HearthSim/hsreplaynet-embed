@@ -16,7 +16,18 @@ function findElements(hrefRegExp: RegExp): HTMLAnchorElement[] {
 	return Array.from(links).filter((link: HTMLAnchorElement) => {
 		// reject nodes containing images or other markup
 		const childNodes = Array.from(link.childNodes);
-		if (childNodes.some(node => node.nodeType !== Node.TEXT_NODE)) {
+		if (
+			!childNodes.every(
+				node =>
+					node.nodeType === Node.TEXT_NODE ||
+					// fix <a href="..."><strong>Text</strong></a>
+					(node.nodeType === Node.ELEMENT_NODE &&
+						["STRONG", "EM", "I"].indexOf(node.nodeName) !== -1 &&
+						Array.from(node.childNodes).every(
+							childNode => childNode.nodeType === Node.TEXT_NODE
+						))
+			)
+		) {
 			return false;
 		}
 
